@@ -25,7 +25,7 @@ import tterrag.craftingChisel.tile.TileOmniCraftingTable;
  */
 public class OmniCraftingTable extends Block
 {
-	public IIcon[] icons = new IIcon[3];
+	public IIcon[] icons = new IIcon[4];
 	private CreativeTabs tab;
 
 	public OmniCraftingTable()
@@ -48,7 +48,8 @@ public class OmniCraftingTable extends Block
 	{
 		icons[0] = register.registerIcon("craftingchisel:craftingTable_top");
 		icons[1] = register.registerIcon("craftingchisel:craftingTable_side");
-		icons[2] = register.registerIcon("craftingchisel:craftingTable_bottom");
+		icons[2] = register.registerIcon("craftingchisel:craftingTable_front");
+		icons[3] = register.registerIcon("craftingchisel:craftingTable_bottom");
 	}
 
 	@Override
@@ -57,11 +58,19 @@ public class OmniCraftingTable extends Block
 		switch (side)
 		{
 		case 0:
-			return icons[2];
+			return icons[3];
 		case 1:
 			return icons[0];
-		default:
+		case 2:
 			return icons[1];
+		case 3:
+			return icons[2];
+		case 4: 
+			return icons[1];
+		case 5:
+			return icons[2];
+		default:
+			return icons[3];
 		}
 	}
 	
@@ -91,8 +100,16 @@ public class OmniCraftingTable extends Block
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float headx, float heady, float headz)
 	{
-		if (!world.isRemote) player.openGui(CraftingChisel.instance, 0, world, x, y, z);
+		if (!world.isRemote && player.inventory.getCurrentItem().getItem() != CraftingChisel.chisel) player.openGui(CraftingChisel.instance, 0, world, x, y, z);
+		else if (!world.isRemote) reset(world, x, y, z);
 		return false;
+	}
+	
+	private void reset(World world, int x, int y, int z)
+	{
+		int meta = ((TileOmniCraftingTable) world.getTileEntity(x, y, z)).blockMeta;
+		world.setBlock(x, y, z, ((TileOmniCraftingTable) world.getTileEntity(x, y, z)).passedBlock);
+		world.setBlockMetadataWithNotify(x, y, z, meta, 3);
 	}
 
 	@Override

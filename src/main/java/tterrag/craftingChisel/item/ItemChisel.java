@@ -29,7 +29,7 @@ public class ItemChisel extends Item
 	{
 		System.out.println((world.getTileEntity(x, y, z) instanceof TileOmniCraftingTable ? ((TileOmniCraftingTable)world.getTileEntity(x, y, z)).passedBlock.getUnlocalizedName() : "nope") + world.isRemote);
 		Block newBlock = world.getBlock(x, y, z);
-		if (!world.isRemote && newBlock != null && newBlock.isOpaqueCube())
+		if (newBlock != null && newBlock.isOpaqueCube())
 		{
 			if (world.getTileEntity(x, y, z) == null)
 			{
@@ -39,7 +39,7 @@ public class ItemChisel extends Item
 				tile.passedBlock = newBlock;
 				tile.blockMeta = meta;
 				world.markBlockForUpdate(x, y, z);
-				return true;
+				return !world.isRemote;
 			}	
 			else 
 			{
