@@ -5,8 +5,6 @@
  */
 package tterrag.craftingChisel;
 
-import io.netty.channel.Channel;
-
 import java.util.EnumMap;
 
 import net.minecraft.block.Block;
@@ -18,7 +16,6 @@ import tterrag.craftingChisel.renderer.OmniCraftingTableRenderer;
 import tterrag.craftingChisel.tile.TileOmniCraftingTable;
 import tterrag.craftingChisel.util.ChannelHandler;
 import tterrag.craftingChisel.util.CraftingChiselGuiHandler;
-import tterrag.craftingChisel.util.PacketCraftingTable;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;

@@ -3,16 +3,11 @@
  */
 package tterrag.craftingChisel.renderer;
 
-import org.lwjgl.opengl.GL11;
-
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.RenderBlocks;
-import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import tterrag.craftingChisel.CraftingChisel;
-import tterrag.craftingChisel.block.OmniCraftingTable;
 import tterrag.craftingChisel.tile.TileOmniCraftingTable;
 import cpw.mods.fml.client.registry.ISimpleBlockRenderingHandler;
 
