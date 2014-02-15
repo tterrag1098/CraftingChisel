@@ -103,12 +103,7 @@ public class OmniCraftingTable extends Block
 		if (!world.isRemote && (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() != CraftingChisel.chisel) || player.inventory.getCurrentItem() == null) 
 			player.openGui(CraftingChisel.instance, 0, world, x, y, z);
 		else if (!world.isRemote) 
-		{
-			if (((TileOmniCraftingTable)world.getTileEntity(x, y, z)).marker == 0)
-				((TileOmniCraftingTable)world.getTileEntity(x, y, z)).marker++;
-			else if (player.isSneaking())
 				reset(world, x, y, z);
-		}
 		return false;
 	}
 	

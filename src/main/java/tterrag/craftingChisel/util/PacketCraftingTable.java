@@ -10,6 +10,14 @@ public class PacketCraftingTable implements ICraftingPacket
 {
 	private int id, meta, x, y, z;
 	
+	public PacketCraftingTable()
+	{
+		this.id = 0;
+		this.meta = 0;
+		this.x = 0;
+		this.y = 0;
+		this.z = 0;
+	}
 	public PacketCraftingTable(int id, int meta, int x, int y, int z)
 	{
 		this.id = id;
@@ -39,8 +47,12 @@ public class PacketCraftingTable implements ICraftingPacket
 		z = buffer.readInt();
 		
 		TileOmniCraftingTable tile = (TileOmniCraftingTable) Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z);
-		tile.passedBlock = Block.getBlockById(id);
-		tile.blockMeta = meta;
+		if (tile != null)
+		{
+			tile.passedBlock = Block.getBlockById(id);
+			tile.blockMeta = meta;
+			Minecraft.getMinecraft().theWorld.markBlockForUpdate(x, y, z);
+		}
 	}
 
 	@Override

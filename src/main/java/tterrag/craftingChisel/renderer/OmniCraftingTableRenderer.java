@@ -37,7 +37,7 @@ public class OmniCraftingTableRenderer implements ISimpleBlockRenderingHandler
 		if (tile == null)
 			return true;
 		Block renderBlock = tile.passedBlock;
-		renderer.renderStandardBlock(renderBlock, x, y, z);
+		renderer.renderStandardBlock(renderBlock == Blocks.air ? Blocks.stone : renderBlock, x, y, z);
 		renderer.renderStandardBlock(block, x, y, z);
 		return false;
 	}

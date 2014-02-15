@@ -6,7 +6,10 @@ import cpw.mods.fml.common.network.FMLIndexedMessageToMessageCodec;
 
 public class ChannelHandler extends FMLIndexedMessageToMessageCodec<ICraftingPacket>
 {
-
+	public ChannelHandler()
+	{
+		addDiscriminator(0, PacketCraftingTable.class);
+	}
 	@Override
 	public void encodeInto(ChannelHandlerContext ctx, ICraftingPacket msg, ByteBuf target) throws Exception
 	{
