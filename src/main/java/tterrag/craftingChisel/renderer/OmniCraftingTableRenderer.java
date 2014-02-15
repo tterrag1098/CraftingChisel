@@ -34,28 +34,10 @@ public class OmniCraftingTableRenderer implements ISimpleBlockRenderingHandler
 			Block block, int modelId, RenderBlocks renderer)
 	{
 		TileOmniCraftingTable tile = (TileOmniCraftingTable) world.getTileEntity(x, y, z);
-		OmniCraftingTable overlay = (OmniCraftingTable) CraftingChisel.omniCraftingTable;
 		if (tile == null)
 			return true;
 		Block renderBlock = tile.passedBlock;
-		IIcon icon1 = renderer.getBlockIconFromSideAndMetadata(renderBlock, tile.blockSide, tile.blockMeta);
-		if (renderBlock.isOpaqueCube())
-		{
-			renderer.setOverrideBlockTexture(icon1);
-		}
-		renderer.renderStandardBlock(block, x, y, z);
-		renderer.clearOverrideBlockTexture();
-		/*
-		IIcon i = overlay.getIcon(1);
-		Tessellator tessellator = Tessellator.instance;
-		tessellator.setColorRGBA_F(1.0F, 1.0F, 1.0F, 0.5F);
-		renderer.renderFaceXNeg(overlay, x, y, z, i);
-		renderer.renderFaceXPos(overlay, x, y, z, i);
-		renderer.renderFaceZNeg(overlay, x, y, z, i);
-		renderer.renderFaceZPos(overlay, x, y, z, i);
-		renderer.renderFaceYNeg(overlay, x, y, z, overlay.getIcon(0));
-		renderer.renderFaceYPos(overlay, x, y, z, overlay.getIcon(2));
-		*/
+		renderer.renderStandardBlock(renderBlock, x, y, z);
 		renderer.renderStandardBlock(block, x, y, z);
 		return false;
 	}
