@@ -4,6 +4,7 @@
 package tterrag.craftingChisel.item;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -22,6 +23,12 @@ public class ItemChisel extends Item
 		super();
 		setCreativeTab(((OmniCraftingTable)CraftingChisel.omniCraftingTable).getTab());
 		setUnlocalizedName("craftingChisel");
+	}
+	
+	@Override
+	public void registerIcons(IIconRegister par1IconRegister)
+	{
+		this.itemIcon = par1IconRegister.registerIcon("craftingchisel:chisel");
 	}
 	
 	@Override
