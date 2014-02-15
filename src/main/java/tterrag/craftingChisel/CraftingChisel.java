@@ -5,6 +5,10 @@
  */
 package tterrag.craftingChisel;
 
+import io.netty.channel.Channel;
+
+import java.util.EnumMap;
+
 import net.minecraft.block.Block;
 import net.minecraft.item.Item;
 import tterrag.craftingChisel.block.OmniCraftingTable;
@@ -12,15 +16,18 @@ import tterrag.craftingChisel.item.ItemChisel;
 import tterrag.craftingChisel.lib.Reference;
 import tterrag.craftingChisel.renderer.OmniCraftingTableRenderer;
 import tterrag.craftingChisel.tile.TileOmniCraftingTable;
+import tterrag.craftingChisel.util.ChannelHandler;
 import tterrag.craftingChisel.util.CraftingChiselGuiHandler;
-import tterrag.craftingChisel.util.PacketPipeline;
+import tterrag.craftingChisel.util.PacketCraftingTable;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.FMLEmbeddedChannel;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 /**
  * Chisel to turn any block into a crafting table.
@@ -36,8 +43,8 @@ public class CraftingChisel
 	@Instance
 	public static CraftingChisel instance;
 	
-	public static PacketPipeline pipeline = new PacketPipeline();
-
+	public static EnumMap<Side, FMLEmbeddedChannel> channels = NetworkRegistry.INSTANCE.newChannel("craftingChisel", new ChannelHandler());
+	
 	@EventHandler
 	public static void preInit(FMLPreInitializationEvent event)
 	{
@@ -50,8 +57,6 @@ public class CraftingChisel
 		renderID = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(new OmniCraftingTableRenderer());
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new CraftingChiselGuiHandler());
-		
-		pipeline.initalise();
 	}
 
 	private static void register()
@@ -63,7 +68,5 @@ public class CraftingChisel
 		
 		chisel = new ItemChisel();
 		GameRegistry.registerItem(chisel, "craftingChisel");		
-		
-		pipeline.postInitialise();
 	}
 }

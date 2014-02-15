@@ -5,11 +5,13 @@
  */
 package tterrag.craftingChisel.tile;
 
-import tterrag.craftingChisel.CraftingChisel;
-import tterrag.craftingChisel.util.PacketCraftingTable;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
+import tterrag.craftingChisel.CraftingChisel;
+import tterrag.craftingChisel.util.PacketCraftingTable;
+import cpw.mods.fml.common.network.FMLOutboundHandler;
+import cpw.mods.fml.relauncher.Side;
 
 /**
  * @author Garrett Spicer-Davis
@@ -31,6 +33,7 @@ public class TileOmniCraftingTable extends TileEntity
 	
 	private void sendPacket()
 	{
-		CraftingChisel.pipeline.sendToAll(new PacketCraftingTable(Block.getIdFromBlock(passedBlock), blockMeta, this.xCoord, this.yCoord, this.zCoord));
+		CraftingChisel.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
+		CraftingChisel.channels.get(Side.SERVER).writeOutbound(new PacketCraftingTable(Block.getIdFromBlock(passedBlock), blockMeta, this.xCoord, this.yCoord, this.zCoord));
 	}
 }

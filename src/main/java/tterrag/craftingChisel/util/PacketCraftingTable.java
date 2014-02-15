@@ -1,13 +1,12 @@
 package tterrag.craftingChisel.util;
 
-import tterrag.craftingChisel.tile.TileOmniCraftingTable;
 import io.netty.buffer.ByteBuf;
-import io.netty.channel.ChannelHandlerContext;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
+import tterrag.craftingChisel.tile.TileOmniCraftingTable;
 
-public class PacketCraftingTable extends AbstractPacket
+public class PacketCraftingTable implements ICraftingPacket
 {
 	private int id, meta, x, y, z;
 	
@@ -21,7 +20,7 @@ public class PacketCraftingTable extends AbstractPacket
 	}
 
 	@Override
-	public void encodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
+	public void encodeInto(ByteBuf buffer)
 	{
 		buffer.writeInt(id);
 		buffer.writeInt(meta);
@@ -31,13 +30,17 @@ public class PacketCraftingTable extends AbstractPacket
 	}
 
 	@Override
-	public void decodeInto(ChannelHandlerContext ctx, ByteBuf buffer)
+	public void decodeInto(ByteBuf buffer)
 	{
 		id = buffer.readInt();
 		meta = buffer.readInt();
 		x = buffer.readInt();
 		y = buffer.readInt();
 		z = buffer.readInt();
+		
+		TileOmniCraftingTable tile = (TileOmniCraftingTable) Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z);
+		tile.passedBlock = Block.getBlockById(id);
+		tile.blockMeta = meta;
 	}
 
 	@Override
