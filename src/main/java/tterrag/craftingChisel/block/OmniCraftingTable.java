@@ -93,7 +93,7 @@ public class OmniCraftingTable extends Block
 	@Override
 	public String getUnlocalizedName()
 	{
-		return "tterrag.storageBlock";
+		return "tterrag.omniCraftingTable";
 	}
 
 	@Override
