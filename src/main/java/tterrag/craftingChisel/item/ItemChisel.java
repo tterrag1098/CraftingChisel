@@ -4,6 +4,7 @@
 package tterrag.craftingChisel.item;
 
 import net.minecraft.block.Block;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -34,9 +35,11 @@ public class ItemChisel extends Item
 	@Override
 	public boolean onItemUseFirst(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float hitX, float hitY, float hitZ)
 	{
+		Block newBlock = world.getBlock(x, y, z);
+		if (newBlock == CraftingChisel.omniCraftingTable)
+			((OmniCraftingTable) newBlock).setStats(world, x, y, z);
 		if (!world.isRemote)
 		{
-			Block newBlock = world.getBlock(x, y, z);
 			if (newBlock != null && newBlock.isOpaqueCube() && world.getTileEntity(x, y, z) == null)
 			{
 				int meta = world.getBlockMetadata(x, y, z);
@@ -48,6 +51,11 @@ public class ItemChisel extends Item
 				world.markBlockForUpdate(x, y, z);
 				return true;
 			}
+		}
+		else
+		{
+			//if (newBlock != null && newBlock.isOpaqueCube() && world.getTileEntity(x, y, z) == null)
+				player.playSound(newBlock.stepSound.getBreakSound(), 1.0f, 1.0f);
 		}
 		return false;
 		/*

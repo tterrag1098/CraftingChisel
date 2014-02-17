@@ -5,6 +5,9 @@
  */
 package tterrag.craftingChisel.block;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
@@ -29,7 +32,7 @@ public class OmniCraftingTable extends Block
 
 	public OmniCraftingTable()
 	{
-		super(Material.wood);
+		super(Material.rock);
 		setStepSound(soundTypeWood);
 		tab = new CreativeTabs(CreativeTabs.getNextID(), "Crafting Chisel")
 		{
@@ -40,6 +43,7 @@ public class OmniCraftingTable extends Block
 			}
 		};
 		setCreativeTab(tab);
+		setHardness(0.6f);
 	}
 
 	@Override
@@ -98,7 +102,7 @@ public class OmniCraftingTable extends Block
 
 	@Override
 	public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int side, float headx, float heady, float headz)
-	{
+	{		
 		if (!world.isRemote && (player.inventory.getCurrentItem() != null && player.inventory.getCurrentItem().getItem() != CraftingChisel.chisel) || player.inventory.getCurrentItem() == null) 
 		{
 			player.openGui(CraftingChisel.instance, 0, world, x, y, z);
@@ -128,6 +132,40 @@ public class OmniCraftingTable extends Block
 	{
 		return true;
 	}
+	
+	public void setStats(World world, int x, int y, int z)
+	{
+		this.stepSound = ((TileOmniCraftingTable) world.getTileEntity(x, y, z)).passedBlock.stepSound;
+		this.setHardness(((TileOmniCraftingTable) world.getTileEntity(x, y, z)).passedBlock.getBlockHardness(world, x, y, z));
+		
+		/* Dirty reflection lies below, unsucessful. */
+		/*
+		Material mat = null;
+		Field f = null;
+		try
+		{
+			f = Block.class.getDeclaredField("blockMaterial");
+			f.setAccessible(true);
+			Field modifiersField = Field.class.getDeclaredField( "modifiers" );
+            modifiersField.setAccessible( true );
+            modifiersField.setInt(f, f.getModifiers() & ~Modifier.FINAL );
+            mat = (Material) f.get(world.getBlock(x, y, z));
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		
+		try
+		{
+			f.set(world.getBlock(x, y, z), mat);
+		}
+		catch (Exception e)
+		{
+			e.printStackTrace();
+		}
+		*/
+	}
 
 	@Override
 	public TileEntity createTileEntity(World world, int metadata)
@@ -139,4 +177,12 @@ public class OmniCraftingTable extends Block
 	{
 		return tab;
 	}
+	
+	@Override
+	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player)
+	{
+		this.setStats(world, x, y, z);
+		super.onBlockClicked(world, x, y, z, player);
+	}
 }
+
