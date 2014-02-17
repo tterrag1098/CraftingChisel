@@ -5,12 +5,13 @@
  */
 package tterrag.craftingChisel.block;
 
+import java.util.ArrayList;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
@@ -25,21 +26,12 @@ import tterrag.craftingChisel.tile.TileOmniCraftingTable;
 public class OmniCraftingTable extends Block
 {
 	public IIcon[] icons = new IIcon[4];
-	private CreativeTabs tab;
+	private Block drop;
 
 	public OmniCraftingTable()
 	{
 		super(Material.rock);
 		setStepSound(soundTypeWood);
-		tab = new CreativeTabs(CreativeTabs.getNextID(), "Crafting Chisel")
-		{
-			@Override
-			public Item getTabIconItem()
-			{
-				return CraftingChisel.omniCraftingTable.getItem(null, 0, 0, 0);
-			}
-		};
-		setCreativeTab(tab);
 		setHardness(0.6f);
 	}
 
@@ -134,6 +126,7 @@ public class OmniCraftingTable extends Block
 	{
 		this.stepSound = ((TileOmniCraftingTable) world.getTileEntity(x, y, z)).passedBlock.stepSound;
 		this.setHardness(((TileOmniCraftingTable) world.getTileEntity(x, y, z)).passedBlock.getBlockHardness(world, x, y, z));
+		this.drop = ((TileOmniCraftingTable) world.getTileEntity(x, y, z)).passedBlock;
 		
 		/* Dirty reflection lies below, unsucessful. */
 		/*
@@ -170,16 +163,17 @@ public class OmniCraftingTable extends Block
 		return new TileOmniCraftingTable();
 	}
 	
-	public CreativeTabs getTab()
-	{
-		return tab;
-	}
-	
 	@Override
 	public void onBlockClicked(World world, int x, int y, int z, EntityPlayer player)
 	{
 		this.setStats(world, x, y, z);
 		super.onBlockClicked(world, x, y, z, player);
+	}
+	
+	@Override
+	public ArrayList<ItemStack> getDrops(World world, int x, int y, int z, int metadata, int fortune)
+	{
+		return drop.getDrops(world, x, y, z, metadata, fortune);
 	}
 }
 

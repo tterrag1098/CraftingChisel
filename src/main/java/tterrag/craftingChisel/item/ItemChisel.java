@@ -5,6 +5,7 @@ package tterrag.craftingChisel.item;
 
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -21,7 +22,7 @@ public class ItemChisel extends Item
 	public ItemChisel()
 	{
 		super();
-		setCreativeTab(((OmniCraftingTable)CraftingChisel.omniCraftingTable).getTab());
+		setCreativeTab(CreativeTabs.tabTools);
 		setUnlocalizedName("craftingChisel");
 	}
 	
@@ -53,24 +54,9 @@ public class ItemChisel extends Item
 		}
 		else
 		{
-			//if (newBlock != null && newBlock.isOpaqueCube() && world.getTileEntity(x, y, z) == null)
+			if (newBlock != null && ((newBlock.isOpaqueCube() && (world.getTileEntity(x, y, z) == null) || world.getTileEntity(x, y, z) instanceof TileOmniCraftingTable)))
 				player.playSound(newBlock.stepSound.getBreakSound(), 1.0f, 1.0f);
 		}
 		return false;
-		/*
-		System.out.println((world.getTileEntity(x, y, z) instanceof TileOmniCraftingTable ? ((TileOmniCraftingTable)world.getTileEntity(x, y, z)).passedBlock.getUnlocalizedName() : "nope") + world.isRemote);
-		Block newBlock = world.getBlock(x, y, z);
-		if (newBlock != null && newBlock.isOpaqueCube() && world.getTileEntity(x, y, z) == null)
-		{
-				int meta = world.getBlockMetadata(x, y, z);
-				world.setBlock(x, y, z, CraftingChisel.omniCraftingTable);
-				world.setBlockMetadataWithNotify(x, y, z, meta, 3);
-				TileOmniCraftingTable tile = (TileOmniCraftingTable) world.getTileEntity(x, y, z);
-				tile.passedBlock = newBlock;
-				tile.blockMeta = meta;
-				world.markBlockForUpdate(x, y, z);
-				return !world.isRemote;
-		}
-		*/
 	}
 }
