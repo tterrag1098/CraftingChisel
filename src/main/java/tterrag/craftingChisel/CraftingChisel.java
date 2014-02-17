@@ -48,14 +48,6 @@ public class CraftingChisel
 	public static void preInit(FMLPreInitializationEvent event)
 	{
 		register();
-	}
-
-	@EventHandler
-	public static void init(FMLPreInitializationEvent event)
-	{
-		renderID = RenderingRegistry.getNextAvailableRenderId();
-		RenderingRegistry.registerBlockHandler(new OmniCraftingTableRenderer());
-		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new CraftingChiselGuiHandler());
 		
 		GameRegistry.addRecipe(new ItemStack(chisel), new Object[]{
 			" id",
@@ -67,7 +59,7 @@ public class CraftingChisel
 			's', Items.stick
 		});
 		
-		GameRegistry.addRecipe(new ItemStack(chisel), new Object[]{
+		GameRegistry.addRecipe(new ItemStack(chisel, 1, 0), new Object[]{
 			"di ",
 			"is ",
 			"  s",
@@ -76,6 +68,14 @@ public class CraftingChisel
 			'd', Items.diamond,
 			's', Items.stick
 		});
+	}
+
+	@EventHandler
+	public static void init(FMLPreInitializationEvent event)
+	{
+		renderID = RenderingRegistry.getNextAvailableRenderId();
+		RenderingRegistry.registerBlockHandler(new OmniCraftingTableRenderer());
+		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new CraftingChiselGuiHandler());
 	}
 
 	private static void register()

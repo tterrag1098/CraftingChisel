@@ -3,12 +3,14 @@
  */
 package tterrag.craftingChisel.item;
 
+import java.util.HashSet;
+
 import net.minecraft.block.Block;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemTool;
 import net.minecraft.world.World;
 import tterrag.craftingChisel.CraftingChisel;
 import tterrag.craftingChisel.block.OmniCraftingTable;
@@ -17,13 +19,14 @@ import tterrag.craftingChisel.tile.TileOmniCraftingTable;
 /**
  * @author Garrett Spicer-Davis
  */
-public class ItemChisel extends Item
+public class ItemChisel extends ItemTool
 {	
 	public ItemChisel()
 	{
-		super();
+		super(4, ToolMaterial.IRON, new HashSet());
 		setCreativeTab(CreativeTabs.tabTools);
 		setUnlocalizedName("craftingChisel");
+		setMaxDamage(120);
 	}
 	
 	@Override
@@ -49,13 +52,16 @@ public class ItemChisel extends Item
 				tile.passedBlock = newBlock;
 				tile.blockMeta = meta;
 				world.markBlockForUpdate(x, y, z);
+				stack.damageItem(1, player);
 				return true;
 			}
 		}
 		else
 		{
 			if (newBlock != null && ((newBlock.isOpaqueCube() && (world.getTileEntity(x, y, z) == null) || world.getTileEntity(x, y, z) instanceof TileOmniCraftingTable)))
+			{
 				player.playSound(newBlock.stepSound.getBreakSound(), 1.0f, 1.0f);
+			}
 		}
 		return false;
 	}

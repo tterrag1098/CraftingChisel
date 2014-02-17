@@ -98,16 +98,19 @@ public class OmniCraftingTable extends Block
 		}
 		else if (!world.isRemote)
 		{
-			reset(world, x, y, z);
+			reset(world, x, y, z, player);
 		}
 		return true;
 	}
 	
-	private void reset(World world, int x, int y, int z)
+	private void reset(World world, int x, int y, int z, EntityPlayer player)
 	{
 		int meta = ((TileOmniCraftingTable) world.getTileEntity(x, y, z)).blockMeta;
 		world.setBlock(x, y, z, ((TileOmniCraftingTable) world.getTileEntity(x, y, z)).passedBlock);
 		world.setBlockMetadataWithNotify(x, y, z, meta, 3);
+		ItemStack i = player.inventory.getCurrentItem();
+		if (i != null)
+			i.damageItem(1, player);
 	}
 
 	@Override
