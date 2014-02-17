@@ -8,7 +8,9 @@ package tterrag.craftingChisel;
 import java.util.EnumMap;
 
 import net.minecraft.block.Block;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import tterrag.craftingChisel.block.OmniCraftingTable;
 import tterrag.craftingChisel.item.ItemChisel;
 import tterrag.craftingChisel.lib.Reference;
@@ -54,6 +56,26 @@ public class CraftingChisel
 		renderID = RenderingRegistry.getNextAvailableRenderId();
 		RenderingRegistry.registerBlockHandler(new OmniCraftingTableRenderer());
 		NetworkRegistry.INSTANCE.registerGuiHandler(instance, new CraftingChiselGuiHandler());
+		
+		GameRegistry.addRecipe(new ItemStack(chisel), new Object[]{
+			" id",
+			" si",
+			"s  ",
+			
+			'i', Items.iron_ingot,
+			'd', Items.diamond,
+			's', Items.stick
+		});
+		
+		GameRegistry.addRecipe(new ItemStack(chisel), new Object[]{
+			"di ",
+			"is ",
+			"  s",
+			
+			'i', Items.iron_ingot,
+			'd', Items.diamond,
+			's', Items.stick
+		});
 	}
 
 	private static void register()
