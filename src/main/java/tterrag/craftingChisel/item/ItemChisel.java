@@ -23,7 +23,7 @@ public class ItemChisel extends ItemTool
 {	
 	public ItemChisel()
 	{
-		super(4, ToolMaterial.IRON, new HashSet());
+		super(4, ToolMaterial.IRON, new HashSet<Object>());
 		setCreativeTab(CreativeTabs.tabTools);
 		setUnlocalizedName("craftingChisel");
 		setMaxDamage(120);
