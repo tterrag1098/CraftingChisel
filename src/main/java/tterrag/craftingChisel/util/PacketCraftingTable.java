@@ -5,7 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import tterrag.craftingChisel.tile.TileOmniCraftingTable;
 
-public class PacketCraftingTable implements IStoragePacket
+public class PacketCraftingTable implements ICraftingPacket
 {
 	private int id, meta, x, y, z;
 	

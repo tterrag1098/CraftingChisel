@@ -6,7 +6,7 @@ import io.netty.buffer.ByteBuf;
  * AbstractPacket class. Should be the parent of all packets wishing to use the PacketPipeline.
  * @author sirgingalot
  */
-public interface IStoragePacket {
+public interface ICraftingPacket {
 
     /**
      * Encode the packet data into the ByteBuf stream. Complex data sets may need specific data handlers (See @link{cpw.mods.fml.common.network.ByteBuffUtils})
