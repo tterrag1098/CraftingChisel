@@ -3,10 +3,9 @@ package tterrag.craftingChisel.util;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.entity.player.EntityPlayer;
 import tterrag.craftingChisel.tile.TileOmniCraftingTable;
 
-public class PacketCraftingTable implements ICraftingPacket
+public class PacketCraftingTable implements IStoragePacket
 {
 	private int id, meta, x, y, z;
 	
@@ -54,16 +53,4 @@ public class PacketCraftingTable implements ICraftingPacket
 			Minecraft.getMinecraft().theWorld.markBlockForUpdate(x, y, z);
 		}
 	}
-
-	@Override
-	public void handleClientSide(EntityPlayer player)
-	{
-		TileOmniCraftingTable tile = (TileOmniCraftingTable) Minecraft.getMinecraft().theWorld.getTileEntity(x, y, z);
-		tile.passedBlock = Block.getBlockById(id);
-		tile.blockMeta = meta;
-	}
-
-	@Override
-	public void handleServerSide(EntityPlayer player)
-	{}
 }
