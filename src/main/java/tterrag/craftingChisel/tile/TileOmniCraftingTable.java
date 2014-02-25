@@ -23,13 +23,12 @@ import cpw.mods.fml.relauncher.Side;
  */
 public class TileOmniCraftingTable extends TileEntity
 {
-	public Block passedBlock;
+	public Block passedBlock = Blocks.air;
 	public int blockMeta, marker;
 	private boolean hasSent;
 	
 	public TileOmniCraftingTable()
 	{
-		passedBlock = Blocks.air;
 		blockMeta = 0;
 		marker = 0;
 	}

@@ -30,11 +30,13 @@ public class OmniCraftingTableRenderer implements ISimpleBlockRenderingHandler
 	{
 		TileOmniCraftingTable tile = (TileOmniCraftingTable) world.getTileEntity(x, y, z);
 		if (tile == null)
-			return true;
+		{
+			return false;
+		}
 		Block renderBlock = tile.passedBlock;
 		renderer.renderStandardBlock(renderBlock == Blocks.air ? Blocks.stone : renderBlock, x, y, z);
 		renderer.renderStandardBlock(block, x, y, z);
-		return false;
+		return true;
 	}
 
 	@Override
