@@ -12,10 +12,6 @@ import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
-import tterrag.craftingChisel.CraftingChisel;
-import tterrag.craftingChisel.util.PacketCraftingTable;
-import cpw.mods.fml.common.network.FMLOutboundHandler;
-import cpw.mods.fml.relauncher.Side;
 
 /**
  * @author Garrett Spicer-Davis
@@ -25,7 +21,6 @@ public class TileOmniCraftingTable extends TileEntity
 {
 	public Block passedBlock = Blocks.air;
 	public int blockMeta, marker;
-	private boolean hasSent;
 	
 	public TileOmniCraftingTable()
 	{
@@ -34,18 +29,9 @@ public class TileOmniCraftingTable extends TileEntity
 	}
 	
 	@Override
-	public void updateEntity()
+	public boolean canUpdate()
 	{
-		if (!hasSent)
-			sendPacket();
-		else if (worldObj.getWorldTime() % 20 == 0)
-			sendPacket();
-	}
-	
-	private void sendPacket()
-	{
-		CraftingChisel.channels.get(Side.SERVER).attr(FMLOutboundHandler.FML_MESSAGETARGET).set(FMLOutboundHandler.OutboundTarget.ALL);
-		CraftingChisel.channels.get(Side.SERVER).writeOutbound(new PacketCraftingTable(Block.getIdFromBlock(passedBlock), blockMeta, this.xCoord, this.yCoord, this.zCoord));
+	    return false;
 	}
 	
 	@Override
@@ -64,7 +50,6 @@ public class TileOmniCraftingTable extends TileEntity
 		passedBlock = Block.getBlockById(tag.getInteger("passedID"));
  		blockMeta = tag.getInteger("meta");
 		marker = tag.getInteger("marker");
-		hasSent = false;
 	}
 	
 	@Override
