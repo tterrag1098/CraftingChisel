@@ -14,11 +14,13 @@ import tterrag.craftingChisel.item.ItemChisel;
 import tterrag.craftingChisel.lib.Reference;
 import tterrag.craftingChisel.renderer.OmniCraftingTableRenderer;
 import tterrag.craftingChisel.tile.TileOmniCraftingTable;
+import tterrag.craftingChisel.util.GuiHandler;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
 /**
@@ -33,7 +35,7 @@ public class CraftingChisel
 	public static Item chisel;
 	public static int renderID;
 	
-	@Instance
+	@Instance(Reference.MODID)
 	public static CraftingChisel instance;
 		
 	@EventHandler
@@ -71,6 +73,8 @@ public class CraftingChisel
 
 	private static void register()
 	{
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance, new GuiHandler());
+
 		omniCraftingTable = new OmniCraftingTable();
 		GameRegistry.registerBlock(omniCraftingTable, "omniCraftingTable");
 		

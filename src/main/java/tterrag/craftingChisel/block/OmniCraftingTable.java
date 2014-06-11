@@ -140,7 +140,9 @@ public class OmniCraftingTable extends Block
         this.setHardness(te.passedBlock.getBlockHardness(world, x, y, z));
         this.drop = te.passedBlock;
         this.mat = te.passedBlock.getMaterial();
-        this.blockIcon = te.passedBlock.getIcon(0, te.blockMeta);
+        
+        if (world.isRemote)
+            this.blockIcon = te.passedBlock.getIcon(0, te.blockMeta);
     }
 
     @Override
